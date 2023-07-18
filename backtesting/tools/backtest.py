@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-from backtesting.datamanager import DataManager
+from feature_creation import DataManager
 from logger import MyLogger
 
 # instance of MyLogger, add False as last param to disable.
@@ -22,6 +22,7 @@ class BackTestSA:
         self.dmgt = DataManager(csv_path, date_col)
 
         # trade variables
+        self.current_df = pd.DataFrame()
         self.long_ord = False  # long order flag
         self.short_ord = False  # short order flag
         self.long_ord_price = None
@@ -196,7 +197,7 @@ class BackTestSA:
         strat_name = self.__class__.__name__
         tf = self.dmgt.timeframe
         self.dmgt.df.to_csv(
-            f"../data/backtests/{strat_name}_{tf}-{instrument}.csv")
+            f"data/strategy_results/{strat_name}_{tf}-{instrument}.csv")
 
 
 

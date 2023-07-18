@@ -1,5 +1,5 @@
 from datetime import datetime as dt
-from backtesting.backtest import BackTestSA
+from backtest import BackTestSA
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -14,40 +14,8 @@ log = MyLogger('../logfile.txt', "SRS141.py")
 
 
 class SRS(BackTestSA):
-    def __init__(self, csv_path, date_col, max_holding, lookback):
+    def __init__(self, csv_path, date_col, max_holding):
         super().__init__(csv_path, date_col, max_holding)
-
-        # lookbacks
-        self.lookback = lookback  # 60min
-
-    def generate_orders(self):
-        df = self.dmgt.df
-
-        df['sig_long'] = df.high.rolling(self.lookback).max()
-        df['sig_short'] = df.low.rolling(self.lookback).min()
-
-        signal_df = pd.DataFrame(index=df.index,
-                                 columns=['long_ord', 'short_ord']).fillna(0)
-        long_ord_price, short_ord_price = 0, 0
-        long_sig_flag, short_sig_flag = 0, 0
-
-        for row in self.dmgt.df.itertuples():
-            if row.sigtime == 0 and short_sig_flag == long_sig_flag == 0:
-                signal_df.loc[row.Index] = [0, 0]
-            elif row.sigtime == 1:
-                long_ord_price, short_ord_price = row.sig_long + 2, \
-                                                  row.sig_short - 2
-                signal_df.loc[row.Index] = [long_ord_price, short_ord_price]
-                long_sig_flag = short_sig_flag = 1
-            elif row.sigtime == 0 and (short_sig_flag or long_sig_flag):
-                signal_df.loc[row.Index, ['short_ord', 'long_ord']] = [
-                    short_ord_price, long_ord_price]
-
-        # Merge the two dataframes and asign to datamanager df
-        merged_df = self.dmgt.df.join(signal_df, how='outer')
-        merged_df[['short_ord', 'long_ord']] = merged_df[
-            ['short_ord', 'long_ord']].ffill().bfill()
-        self.dmgt.df = merged_df
 
     def generate_signals(self):
         df = self.dmgt.df
@@ -58,7 +26,6 @@ class SRS(BackTestSA):
         df.dropna(inplace=True)
 
     def run_backtest(self):
-        self.generate_orders()
         self.generate_signals()
         for row in self.dmgt.df.itertuples():
             if row.entry == 1:
@@ -94,15 +61,13 @@ class SRS(BackTestSA):
 
 
 if __name__ == '__main__':
-    csv_path = "../data/btc_jan2023.csv"
+    csv_path = "data/clean_data/btc_jan2023_with_sigbar_orders.csv"
     date_col = 'timestamp'
     max_holding = 1000000000000
-    lookback = 60 * 24
 
-    srs = SRS(csv_path, date_col, max_holding, lookback)
+    srs = SRS(csv_path, date_col, max_holding)
 
-    srs.dmgt.change_sigtime(0, 1)
-    srs.dmgt.change_resolution("1min")
+    #srs.dmgt.change_resolution("1min")
 
     srs.run_backtest()
     srs.show_performance()
