@@ -5,7 +5,7 @@ from feature_creation import DataManager
 from logger import MyLogger
 
 # instance of MyLogger, add False as last param to disable.
-#log = MyLogger('../logfile.txt', "backtest.py", False)
+log = MyLogger('../backtesting/data/strategy_results/logfile.txt', "SRS141.py", True)
 
 
 class BackTestSA:
@@ -17,28 +17,19 @@ class BackTestSA:
     timestamp: date
     """
 
-    def __init__(self, csv_path, date_col, max_holding):
+    def __init__(self, csv_path, date_col):
 
         self.dmgt = DataManager(csv_path, date_col)
 
         # trade variables
         self.current_df = pd.DataFrame()
-        self.trade_count = None  # count how many times signal has been taken
+        self.entry_count = 0  # count number of times sig executed
+        self.trade_count = 0  # count how many times signal has been taken
         self.open_pos = False
         self.entry_price = 0
         self.direction = 0
         self.target_price = 0
         self.stop_price = 0
-        # vertical barrier variable
-        self.max_holding = max_holding
-        self.max_holding_limit = max_holding
-
-        # barrier multipliers
-        self.ub_mult = 1.005
-        self.lb_mult = 0.995
-
-        # special case of vertical barrier
-        self.end_date = self.dmgt.df.index.values[-1]
 
         self.returns_series = []
         self.holding_series = []
@@ -54,7 +45,16 @@ class BackTestSA:
         self.open_pos = True
         self.direction = 1
         self.entry_price = price
+        self.trade_count += 1
+        self.entry_count += 1
         self.add_zeros()
+
+        log.logger.info(
+            str(self.trade_count)
+            + " entry_count-" + str(int(self.entry_count))
+            + " L-" + str(int(self.entry_price))
+            + " tp-" + str((int(self.target_price)))
+            + " sl-" + str(int(self.stop_price)))
 
     def open_short(self, price):
         """
@@ -66,18 +66,26 @@ class BackTestSA:
         self.open_pos = True
         self.direction = -1
         self.entry_price = price
+        self.trade_count += 1
+        self.entry_count += 1
         self.add_zeros()
+
+        log.logger.info(
+            str(self.trade_count)
+            + " entry_count-" + str(int(self.entry_count))
+            + " S-" + str(int(self.entry_price))
+            + " tp-" + str(int(self.target_price))
+            + " sl-" + str(int(self.stop_price)))
 
     def reset_variables(self):
         """
         resets the variables after we close a trade
         """
         self.open_pos = False
-        self.entry_price = None
-        self.direction = None
-        self.target_price = None
-        self.stop_price = None
-        self.max_holding = self.max_holding_limit
+        self.entry_price = 0
+        self.direction = 0
+        self.target_price = 0
+        self.stop_price = 0
 
     def add_zeros(self):
         self.returns_series.append(0)
@@ -98,8 +106,6 @@ class BackTestSA:
     def process_close_var(self, pnl):
         self.returns_series.append(pnl)
         self.direction_series.append(self.direction)
-        holding = self.max_holding_limit - self.max_holding
-        self.holding_series.append(holding)
 
     def generate_signals(self):
         """
@@ -112,16 +118,16 @@ class BackTestSA:
     def monitor_open_positions(self, price, timestamp):
         # check if target breached for long positions
         if price >= self.target_price and self.direction == 1:
-            self.close_position(self.target_price)
+            self.close_position(price)
         # check if stop-loss breached for long positions
         elif price <= self.stop_price and self.direction == 1:
-            self.close_position(self.stop_price)
+            self.close_position(price)
         # check if target breached for short positions
         elif price <= self.target_price and self.direction == -1:
-            self.close_position(self.target_price)
+            self.close_position(price)
         # check if stop-loss breached for short positions
         elif price >= self.stop_price and self.direction == -1:
-            self.close_position(self.stop_price)
+            self.close_position(price)
 
         # if all above conditions not true, append a zero to returns column
         else:
@@ -134,11 +140,9 @@ class BackTestSA:
         the strategy heartbeat.
         """
         self.dmgt.df['returns'] = self.returns_series
-        self.dmgt.df['holding'] = self.holding_series
         self.dmgt.df['direction'] = self.direction_series
 
         self.returns_series = []
-        self.holding_series = []
         self.direction_series = []
 
     def run_backtest(self):
@@ -153,7 +157,8 @@ class BackTestSA:
             # if we short signal and do not have open position open a sort
             elif row.entry == -1 and self.open_pos is False:
                 self.open_short(row.t_plus)
-            # monitor open positions to see if any of the barriers have been touched, see function above
+            # monitor open positions to see if any of the barriers have been
+            # touched, see function above
             elif self.open_pos:
                 self.monitor_open_positions(row.close, row.Index)
             else:

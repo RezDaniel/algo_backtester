@@ -12,9 +12,9 @@ from logger import MyLogger
 log = MyLogger('data/strategy_results/logfile.txt', "SRS141.py", True)
 
 
-class SRS(BackTestSA):
-    def __init__(self, csv_path, date_col, max_holding):
-        super().__init__(csv_path, date_col, max_holding)
+class SRS141(BackTestSA):
+    def __init__(self, csv_path, date_col):
+        super().__init__(csv_path, date_col)
 
     def generate_signals(self):
         df = self.dmgt.df
@@ -27,37 +27,31 @@ class SRS(BackTestSA):
     def run_backtest(self):
         self.generate_signals()
         for row in self.dmgt.df.itertuples():
+            if row.sigtime == 1:
+                self.entry_count = 0
+                log.logger.info("    sigtime")
             if row.entry == 1 and row.long_ord != 0:
                 # Populating class variables if long entry
-                if not self.open_pos:
-                    self.open_long(row.t_plus)
+                if not self.open_pos and self.entry_count < 1:
                     self.stop_price = row.short_ord
-                    self.target_price = row.long_ord + (row.long_ord - row.short_ord)
+                    self.target_price = row.long_ord + (
+                                row.long_ord - row.short_ord)
+                    self.open_long(row.t_plus)
                 else:
                     self.add_zeros()
-
             elif row.entry == -1 and row.short_ord != 0:
                 # Populating class variables if short entry
-                if not self.open_pos:
-                    self.open_short(row.t_plus)
+                if not self.open_pos and self.entry_count < 1:
                     self.stop_price = row.long_ord
-                    self.target_price = row.short_ord - (row.long_ord - row.short_ord)
+                    self.target_price = row.short_ord - (
+                                row.long_ord - row.short_ord)
+                    self.open_short(row.t_plus)
                 else:
                     self.add_zeros()
             elif self.open_pos:
                 self.monitor_open_positions(row.close, row.Index)
-                log.logger.info(
-                    "t=" + str(row.Index)
-                    + " sigt=" + str(row.sigtime)
-                    + "  pos=" + str(self.open_pos)
-                    + "  ent=" + str(self.entry_price)
-                    + "  price=" + str(row.close)
-                    + "  dir:" + str(self.direction)
-                    + "  TP=" + str(self.target_price)
-                    + "  SL=" + str(self.stop_price))
             else:
                 self.add_zeros()  # if entry == 0 add zeros()
-
         self.add_trade_cols()
 
     def show_performance(self):
@@ -70,12 +64,11 @@ class SRS(BackTestSA):
 if __name__ == '__main__':
     csv_path = "data/clean_data/btc_jan2023_with_sigbar_orders.csv"
     date_col = 'timestamp'
-    max_holding = 1000000000000
 
-    srs = SRS(csv_path, date_col, max_holding)
+    srs = SRS141(csv_path, date_col)
     srs.run_backtest()
     srs.show_performance()
-    # 1049 trades with fixed stops and targets 981
+    # print to terminal how many trades executed
     print(abs(srs.dmgt.df.direction).sum())
 
     # Uncomment if you wish to save the backtest to the folder
