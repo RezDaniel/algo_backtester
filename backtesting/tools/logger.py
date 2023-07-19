@@ -14,9 +14,9 @@ class MyLogger:
             logging.basicConfig(
                 filename=self.log_file,
                 level=logging.INFO,
-                format=
-                '%(asctime)s - %(levelname)s - %(name)s - %(lineno)d - %('
-                'message)s'
+                format='%(''message)s'
+                #'%(levelname)s - %(name)s - %(lineno)d - %('
+                #'message)s'
             )
         self.logger = logging.getLogger(self.module_name)
 

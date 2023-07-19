@@ -5,7 +5,7 @@ from feature_creation import DataManager
 from logger import MyLogger
 
 # instance of MyLogger, add False as last param to disable.
-log = MyLogger('../logfile.txt', "backtest.py", False)
+#log = MyLogger('../logfile.txt', "backtest.py", False)
 
 
 class BackTestSA:
@@ -23,17 +23,12 @@ class BackTestSA:
 
         # trade variables
         self.current_df = pd.DataFrame()
-        self.long_ord = False  # long order flag
-        self.short_ord = False  # short order flag
-        self.long_ord_price = None
-        self.short_ord_price = None
         self.trade_count = None  # count how many times signal has been taken
-        self.last_dir = None  # log direction of last trade 1 long / 0 short
         self.open_pos = False
-        self.entry_price = None
-        self.direction = None
-        self.target_price = None
-        self.stop_price = None
+        self.entry_price = 0
+        self.direction = 0
+        self.target_price = 0
+        self.stop_price = 0
         # vertical barrier variable
         self.max_holding = max_holding
         self.max_holding_limit = max_holding
@@ -59,14 +54,7 @@ class BackTestSA:
         self.open_pos = True
         self.direction = 1
         self.entry_price = price
-        self.target_price = price * self.ub_mult
-        self.stop_price = price * self.lb_mult
         self.add_zeros()
-
-        # log.logger.info(
-        #     "sigtime=" + str(row.sigtime) + "  long_ord="
-        #     + str(self.long_ord_price) + "  short_ord="
-        #     + str(self.short_ord_price))
 
     def open_short(self, price):
         """
@@ -78,8 +66,6 @@ class BackTestSA:
         self.open_pos = True
         self.direction = -1
         self.entry_price = price
-        self.target_price = price * self.lb_mult
-        self.stop_price = price * self.ub_mult
         self.add_zeros()
 
     def reset_variables(self):
@@ -124,28 +110,21 @@ class BackTestSA:
             raise Exception('You have not created signals yet')
 
     def monitor_open_positions(self, price, timestamp):
-        # check upper horizontal barrier for long positions
-        if price_high >= self.target_price and self.direction == 1:
+        # check if target breached for long positions
+        if price >= self.target_price and self.direction == 1:
             self.close_position(self.target_price)
-        # check lower horizontal barrier for long positions
-        elif price_low <= self.stop_price and self.direction == 1:
+        # check if stop-loss breached for long positions
+        elif price <= self.stop_price and self.direction == 1:
             self.close_position(self.stop_price)
-        # check lower horizontal barrier for short positions
-        elif price_low <= self.target_price and self.direction == -1:
+        # check if target breached for short positions
+        elif price <= self.target_price and self.direction == -1:
             self.close_position(self.target_price)
-        # check upper horizontal barrier for short positions
-        elif price_high >= self.stop_price and self.direction == -1:
+        # check if stop-loss breached for short positions
+        elif price >= self.stop_price and self.direction == -1:
             self.close_position(self.stop_price)
-        # cehck special case of vertical barrier
-        elif timestamp == self.end_date:
-            self.close_position(price_low)
-        # check vertical barrier
-        elif self.max_holding <= 0:
-            self.close_position(price_low)
-        # if all above conditions not true, decrement max holding by 1 and
-        # append a zero to returns column
+
+        # if all above conditions not true, append a zero to returns column
         else:
-            self.max_holding = self.max_holding - 1
             self.add_zeros()
 
     def add_trade_cols(self):
