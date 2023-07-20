@@ -1,6 +1,7 @@
 clean_data/
+todo/
 todo
 todo.txt
-todo/
 logfile
 logfile.txt
+*.log

@@ -13,6 +13,7 @@
       <sourceFolder url="file://$MODULE_DIR$/data_wrangling/feature_engineering" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/data_wrangling/ingestion" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/data_wrangling/transformation" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/backtesting/strategies" isTestSource="false" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

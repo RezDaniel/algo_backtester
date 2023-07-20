@@ -9,7 +9,7 @@ from logger import MyLogger
 #logging.disable(logging.CRITICAL)  # uncomment to disable all loggers
 
 # instance of MyLogger, add False as last param to disable.
-log = MyLogger('data/strategy_results/logfile.txt', "SRS141.py", True)
+log = MyLogger('../data/strategy_results/logfile.txt', "SRS141.py", True)
 
 
 class SRS141(BackTestSA):
@@ -62,7 +62,7 @@ class SRS141(BackTestSA):
 
 
 if __name__ == '__main__':
-    csv_path = "data/clean_data/btc_jan2023_with_sigbar_orders.csv"
+    csv_path = "../data/clean_data/btc_jan2023_with_sigbar_orders.csv"
     date_col = 'timestamp'
 
     srs = SRS141(csv_path, date_col)
