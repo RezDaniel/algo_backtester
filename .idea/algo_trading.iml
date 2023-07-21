@@ -5,15 +5,19 @@
       <sourceFolder url="file://$MODULE_DIR$" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/backtesting" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/backtesting/data" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/backtesting/data/clean_data" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/backtesting/data/strategy_results" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/backtesting/tools" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/data_wrangling" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/data_wrangling/cleaning" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/data_wrangling/feature_engineering" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/data_wrangling/ingestion" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/data_wrangling/transformation" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/backtesting/strategies" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/backtesting/clean_data" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/backtesting/clean_data/raw_data" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/backtesting/data/cleaning" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/backtesting/data/feature_creation" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/backtesting/data/ingestion" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/backtesting/data/transformation" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/backtesting/feature_engineering" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/backtesting/strategy_results" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/backtesting/utils" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/backtesting/visualisation" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/live_trading" isTestSource="false" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
