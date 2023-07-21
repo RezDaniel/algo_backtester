@@ -5,13 +5,14 @@
       <sourceFolder url="file://$MODULE_DIR$" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/backtesting" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/backtesting/data" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/backtesting/data" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/backtesting/data/clean_data" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/data_wrangling" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/backtesting/strategies" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/backtesting/clean_data" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/backtesting/clean_data/raw_data" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/backtesting/data/cleaning" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/backtesting/data/feature_creation" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/backtesting/data/ingestion" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/backtesting/data/raw_data" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/backtesting/data/transformation" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/backtesting/feature_engineering" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/backtesting/strategy_results" isTestSource="false" />

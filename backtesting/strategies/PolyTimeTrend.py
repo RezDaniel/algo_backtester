@@ -90,7 +90,7 @@ class PolyTrend(BackTestSA):
 
 
 if __name__ == '__main__':
-    csv_path = "../data/cleaned_btc.csv"
+    csv_path = "clean_data/cleaned_btc.csv"
     date_col = 'timestamp'
     max_holding = 12 * 12
     # I fixed this at 24 hour minimum, 60min = 24, 30min = 48 etc

@@ -73,7 +73,7 @@ class HigherLower(BackTestSA):
 
 
 if __name__ == '__main__':
-    csv_path = "../data/cleaned_btc.csv"
+    csv_path = "clean_data/cleaned_btc.csv"
     date_col = 'timestamp'
     max_holding = 8
 

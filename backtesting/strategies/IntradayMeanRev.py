@@ -41,7 +41,7 @@ class IMeanReversion(BackTestSA):
 
 
 if __name__ == "__main__":
-    csv_path = "../data/cleaned_btc.csv"  # change this to your folder/filename
+    csv_path = "clean_data/cleaned_btc.csv"  # change this to your folder/filename
     date_col = 'timestamp'
     max_holding = 300  # 300minutes
     ub_mult = 1.02  # target / stop

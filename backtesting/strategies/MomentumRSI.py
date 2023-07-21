@@ -73,7 +73,7 @@ class MomentumRSI(BackTestSA):
 if __name__ == '__main__':
     # change this to data/cleaned_btc.csv for bitcoin data
     date_col = 'timestamp'
-    csv_path = "../data/cleaned_btc.csv"
+    csv_path = "clean_data/cleaned_btc.csv"
     # this is in time periods example 12 = 12 hours, if hourly,
     # 6hours if 30min periods etc
     max_holding = 12  # this is in time periods

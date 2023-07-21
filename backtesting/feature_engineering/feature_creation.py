@@ -2,6 +2,7 @@
 import pandas as pd
 import datetime as dt
 from logger import MyLogger
+import glob
 
 
 class DataManager:
@@ -22,12 +23,8 @@ class DataManager:
         self.df = self.data.copy()
         self.timeframe = '1min'
 
-    import pandas as pd
-
-    import pandas as pd
-    import glob
-
-    def concatenate_csv_files(self, file_pattern, output_filename):
+    @staticmethod
+    def concatenate_csv_files(file_pattern, output_filename):
         """
         Concatenate multiple CSV files into a single DataFrame and save to a
         new CSV file.

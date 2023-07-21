@@ -62,7 +62,7 @@ class BTCSRS800(BackTestSA):
 
 
 if __name__ == '__main__':
-    csv_path = "backtesting/clean_data/btc_jan2023_with_sigbar_orders.csv"
+    csv_path = "clean_data/btc_jan2023_with_sigbar_orders.csv"
     date_col = 'timestamp'
 
     srs = BTCSRS800(csv_path, date_col)

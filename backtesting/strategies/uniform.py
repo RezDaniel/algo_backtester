@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 plt.style.use('ggplot')
 
-data = pd.read_csv('backtesting/data/cleaned_btc.csv',
+data = pd.read_csv('clean_data/cleaned_btc.csv',
                    parse_dates=['timestamp'],
                    index_col ='timestamp')
 
