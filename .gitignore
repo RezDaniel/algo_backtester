@@ -1,4 +1,6 @@
 clean_data/
+results/
+test_data/
 raw_data/
 todo/
 todo
@@ -6,3 +8,4 @@ todo.txt
 logfile
 logfile.txt
 *.log
+*.ipynb

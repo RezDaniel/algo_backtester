@@ -2,7 +2,6 @@
 import pandas as pd
 import datetime as dt
 from logger import MyLogger
-import glob
 
 
 class DataManager:
@@ -13,7 +12,7 @@ class DataManager:
                                 index_col=date_col)
 
         # instance of MyLogger, add False as last param to disable.
-        log = MyLogger('../logfile.txt', "feature_creation.py", False)
+        log = MyLogger('../logfile.log', "feature_creation.py", False)
 
         # can use uniform to change this
         self.data['t_plus'] = self.data.open.shift(-1)
@@ -22,31 +21,6 @@ class DataManager:
 
         self.df = self.data.copy()
         self.timeframe = '1min'
-
-    @staticmethod
-    def concatenate_csv_files(file_pattern, output_filename):
-        """
-        Concatenate multiple CSV files into a single DataFrame and save to a
-        new CSV file.
-
-        :param file_pattern: File pattern to match the CSV files (e.g.,
-        'BTCUSDT-1m-2020-*.csv').
-        :param output_filename: Filename to save the concatenated data.
-        :return: DataFrame containing the concatenated data.
-        """
-        # Get a list of all CSV files that match the pattern and sort them
-        # based on dates
-        csv_files = sorted(glob.glob(file_pattern))
-
-        concatenated_data = pd.DataFrame()
-
-        for file in csv_files:
-            data = pd.read_csv(file)
-            concatenated_data = pd.concat([concatenated_data, data])
-
-        concatenated_data.to_csv(output_filename, index=False)
-
-        return concatenated_data
 
     def change_resolution(self, new_timeframe):
 
@@ -61,6 +35,8 @@ class DataManager:
 
     def set_sigtime(self, hours=0, mins=0):
         """
+        Restrict strategty to only watch the market at a specific time.
+
         :param hours: int of the hour bar you want a signal on, defaults to 0
         :param mins: int of the minutes you want a signal on, defaults to 0
         """
@@ -69,7 +45,10 @@ class DataManager:
             .astype(int)
 
     def generate_orders(self, lookback, buffer, filename):
-
+        """
+        Generates buy/sell orders at the break of the high/low of a previous-
+        bar, designated in time by using set_sigtime() and a lookback period.
+        """
         self.df['sig_long'] = self.df['high'].rolling(lookback).max()
         self.df['sig_short'] = self.df['low'].rolling(lookback).min()
 

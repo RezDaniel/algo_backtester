@@ -4,7 +4,7 @@ from feature_creation import DataManager
 from logger import MyLogger
 
 # instance of MyLogger, add False as last param to disable.
-log = MyLogger('backtesting/strategy_results/logfile.log', "SRS141.py", True)
+log = MyLogger('results/logfile.log', "backtest_engine.py")
 
 
 class BackTestSA:
@@ -180,7 +180,7 @@ class BackTestSA:
         strat_name = self.__class__.__name__
         tf = self.dmgt.timeframe
         self.dmgt.df.to_csv(
-            f"../data/strategy_results/{strat_name}_{tf}-{instrument}.csv")
+            f"../data/results/{strat_name}_{tf}-{instrument}.csv")
 
 
 
