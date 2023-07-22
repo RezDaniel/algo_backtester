@@ -19,6 +19,7 @@
       <sourceFolder url="file://$MODULE_DIR$/backtesting/visualisation" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/backtesting/data/results" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/backtesting/data/test_data" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/backtesting/feature_engineering/utils" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/live_trading" isTestSource="false" />
     </content>
     <orderEntry type="inheritedJdk" />

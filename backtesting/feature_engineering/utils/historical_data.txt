@@ -1,0 +1,14 @@
+https://www.codearmo.com/python-tutorial/crypto-algo-trading-historical-data1
+
+The script below collects data from Deribit's public API, using the
+https://docs.deribit.com/?python#public-get_tradingview_chart_data method.
+We then create a function to retrieve historic data from the API and then process it using the json_to_dataframe
+function we made in the video.
+
+I recommend looking over the API docs (https://docs.deribit.com/?python#deribit-api-v2-0-1) in more detail
+so you are familiar with methods. The call_api and async_loop will be the workhorse of all the future methods we create
+to interact with the API. I did say the docs are pretty good!
+
+And don't forget to check out the API console
+(https://test.deribit.com/api_console?method=%2Fpublic%2Fget_book_summary_by_currency) which comes in handy for testing
+queries and giving examples of the type of response we should expect for each of the methods.

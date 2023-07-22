@@ -1,7 +1,5 @@
 # features_creation.py
 import pandas as pd
-import datetime as dt
-from logger import MyLogger
 
 
 class DataManager:
@@ -10,9 +8,6 @@ class DataManager:
 
         self.data = pd.read_csv(csv_path, parse_dates=[date_col],
                                 index_col=date_col)
-
-        # instance of MyLogger, add False as last param to disable.
-        log = MyLogger('../logfile.log', "feature_creation.py", False)
 
         # can use uniform to change this
         self.data['t_plus'] = self.data.open.shift(-1)
@@ -30,19 +25,53 @@ class DataManager:
                          't_plus': 'last'}
 
         self.df = self.data.resample(new_timeframe).agg(resample_dict)
-
         self.timeframe = new_timeframe
 
-    def set_sigtime(self, hours=0, mins=0):
+    def update_sigtime_column(self, check_both=False):
         """
-        Restrict strategty to only watch the market at a specific time.
+        Update the 'sigtime' column based on the conditions specified.
 
-        :param hours: int of the hour bar you want a signal on, defaults to 0
-        :param mins: int of the minutes you want a signal on, defaults to 0
+        :param check_both: Whether to check both 'time_newyork' and
+        'time_london' columns, defaults to False.
         """
-        self.df['sigtime'] = self.df.index  # creates a column sigtime
-        self.df['sigtime'] = (self.df.index.time == dt.time(hours, mins))\
-            .astype(int)
+        if check_both:
+            time_columns = ['time_newyork', 'time_london']
+        else:
+            time_columns = ['time_london']  # can choose 'time_newyork' here
+
+        for time_column in time_columns:
+            # Check if the specified time_column exists in the DataFrame
+            if time_column not in self.df.columns:
+                raise ValueError(
+                    f"Column '{time_column}' does not exist in the "
+                    f"DataFrame.")
+
+            # Convert the time_column to datetime objects remove seconds and ms
+            self.df[time_column] = \
+                pd.to_datetime(self.df[time_column]).dt.floor('T')
+
+        # function to set the value of 'sigtime' based on the conditions
+        def set_sigtime(row):
+            if check_both:
+                if row['time_newyork'].hour == 9 and \
+                        row['time_newyork'].minute == 30:
+                    return 1
+                elif row['time_london'].hour == 8 and \
+                        row['time_london'].minute == 0:
+                    return 1
+            else:
+                if row['time_newyork'].hour == 9 and \
+                        row['time_newyork'].minute == 30:
+                    return 1
+
+            return 0
+
+        # Apply the function to each row to update 'sigtime' column
+        self.df['sigtime'] = self.df.apply(set_sigtime, axis=1)
+
+        # Save the updated DataFrame back to the CSV file
+        self.df.to_csv('data/test_data/sigtimes.csv',
+                       date_format='%m/%d/%Y %H:%M', index=False)
 
     def generate_orders(self, lookback, buffer, filename):
         """
