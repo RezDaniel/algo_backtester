@@ -2,7 +2,7 @@
 from feature_creation import DataManager
 
 
-def generate_sigbar_orders(csv_path, date_col, output_filename):
+def generate_sigtime_orders(csv_path, date_col, output_csv):
     # Create an instance of the DataManager class and load the data from the CSV
     dmgt = DataManager(csv_path, date_col)
 
@@ -10,7 +10,8 @@ def generate_sigbar_orders(csv_path, date_col, output_filename):
 
     # Generate orders using the specified lookback period for sigtime in min.
     lookback = 60
-    dmgt.generate_orders(lookback, output_filename)
+    buffer = 2
+    dmgt.generate_orders(lookback, buffer, output_csv)
 
 
 
