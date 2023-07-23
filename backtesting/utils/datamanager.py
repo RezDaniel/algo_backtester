@@ -27,10 +27,11 @@ class DataManager:
         self.df = self.data.resample(new_timeframe).agg(resample_dict)
         self.timeframe = new_timeframe
 
-    def update_sigtime_column(self, check_both=False):
+    def update_sigtime_column(self, output_csv, check_both=False):
         """
         Update the 'sigtime' column based on the conditions specified.
 
+        :param output_csv: the path for the output.csv file.
         :param check_both: Whether to check both 'time_newyork' and
         'time_london' columns, defaults to False.
         """
@@ -70,7 +71,7 @@ class DataManager:
         self.df['sigtime'] = self.df.apply(set_sigtime, axis=1)
 
         # Save the updated DataFrame back to the CSV file
-        self.df.to_csv('data/test_data/sigtimes.csv',
+        self.df.to_csv(output_csv,
                        date_format='%m/%d/%Y %H:%M', index=False)
 
     def generate_orders(self, lookback, buffer, filename):

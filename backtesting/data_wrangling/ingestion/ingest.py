@@ -41,14 +41,13 @@ def json_to_dataframe(json_resp):
     df = pd.DataFrame(res['result'])
 
     df['ticks'] = df.ticks / 1000
-    # converts using local time as datetime convertion
     df['timestamp'] = [dt.datetime.fromtimestamp(date) for date in df.ticks]
 
     return df
 
 
 if __name__ == '__main__':
-    start = 1689984000000  # downloads converting to local-time datetime
+    start = 1689984000000  # downloads tradingview UTC (UTC-0) timezone.
     end = 1690070400000
     instrument = "BTC-PERPETUAL"
     timeframe = '1'

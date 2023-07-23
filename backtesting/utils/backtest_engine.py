@@ -1,6 +1,6 @@
 import pandas as pd
 import matplotlib.pyplot as plt
-from feature_creation import DataManager
+from datamanager import DataManager
 from logger import MyLogger
 
 # instance of MyLogger, add False as last param to disable.
