@@ -4,7 +4,7 @@ from datamanager import DataManager
 from logger import MyLogger
 
 # instance of MyLogger, add False as last param to disable.
-log = MyLogger('results/logfile.log', "backtest_engine.py")
+log = MyLogger('../data/results/logfile.log', "backtest_engine.py")
 
 
 class BackTestSA:
@@ -29,6 +29,10 @@ class BackTestSA:
         self.direction = 0
         self.target_price = 0
         self.stop_price = 0
+
+        # target multipliers
+        self.long_mult = 1.04
+        self.short_mult = 0.96
 
         self.returns_series = []
         self.holding_series = []

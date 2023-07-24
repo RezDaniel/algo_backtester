@@ -22,6 +22,12 @@
       <sourceFolder url="file://$MODULE_DIR$/backtesting/data_wrangling/cleaning" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/backtesting/data_wrangling/ingestion" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/backtesting/data_wrangling/transformation" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/backtesting/data/test_data/BTCMC" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/backtesting/data/test_data/BTCMC/build" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/backtesting/data/test_data/BTCMC/final_test" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/backtesting/data/test_data/BTCMC/optimise" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/backtesting/data/test_data/BTCMC/testing" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/backtesting/data_wrangling/integration" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/live_trading" isTestSource="false" />
     </content>
     <orderEntry type="inheritedJdk" />

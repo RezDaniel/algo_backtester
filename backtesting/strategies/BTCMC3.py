@@ -9,10 +9,10 @@ from logger import MyLogger
 #logging.disable(logging.CRITICAL)  # uncomment to disable all loggers
 
 # instance of MyLogger, add False as last param to disable.
-log = MyLogger('results/logfile.log', "BTCSRS800.py", True)
+log = MyLogger('../data/results/logfile.log', "BTCMC3.py", True)
 
 
-class BTCSRS800(BackTestSA):
+class BTCMC3(BackTestSA):
     def __init__(self, csv_path, date_col):
         super().__init__(csv_path, date_col)
 
@@ -34,8 +34,8 @@ class BTCSRS800(BackTestSA):
                 # Populating class variables if long entry
                 if not self.open_pos and self.entry_count < 1:
                     self.stop_price = row.short_ord
-                    self.target_price = row.long_ord + (
-                                row.long_ord - row.short_ord) + 800
+                    self.target_price = (row.long_ord + (
+                                row.long_ord - row.short_ord)) * self.long_mult
                     self.open_long(row.t_plus)
                 else:
                     self.add_zeros()
@@ -43,8 +43,8 @@ class BTCSRS800(BackTestSA):
                 # Populating class variables if short entry
                 if not self.open_pos and self.entry_count < 1:
                     self.stop_price = row.long_ord
-                    self.target_price = row.short_ord - (
-                                row.long_ord - row.short_ord) - 800
+                    self.target_price = (row.short_ord - (
+                                row.long_ord - row.short_ord)) * self.short_mult
                     self.open_short(row.t_plus)
                 else:
                     self.add_zeros()
@@ -62,14 +62,14 @@ class BTCSRS800(BackTestSA):
 
 
 if __name__ == '__main__':
-    csv_path = "../data/test_data/btc_jan2023_with_orders.csv"
+    csv_path = "../data/test_data/BTCMC/final_test/orders_ny.csv"
     date_col = 'timestamp'
 
-    srs = BTCSRS800(csv_path, date_col)
-    srs.run_backtest()
-    srs.show_performance()
+    mc = BTCMC3(csv_path, date_col)
+    mc.run_backtest()
+    mc.show_performance()
     # print to terminal how many trades executed
-    print(abs(srs.dmgt.df.direction).sum())
+    print(abs(mc.dmgt.df.direction).sum())
 
     # Uncomment if you wish to save the backtest to the folder
-    srs.save_backtest("btc")
+    mc.save_backtest("btc")
