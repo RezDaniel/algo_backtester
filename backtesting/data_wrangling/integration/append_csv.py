@@ -22,9 +22,8 @@ def append_csv_files(file1, file2, output_file):
 
 if __name__ == "__main__":
     # Input file paths
-    file1 = "../../data/test_data/BTCMC/final_test/jun-dec_2022.csv"
-    file2 = "../../data/test_data/BTCMC/final_test/jan-jun_2023.csv"
-    output_file = 'backtesting/data/test_data/BTCMC/final_test' \
-                  '/final_test_data.csv'
+    file1 = "../../data/test_data/BTCMC/final/jun-dec_2022.csv"
+    file2 = "../../data/test_data/BTCMC/final/jan-jun_2023.csv"
+    output_file = 'backtesting/data/test_data/final_test_data.csv'
 
     append_csv_files(file1, file2, output_file)

@@ -1,9 +1,6 @@
-from datetime import datetime as dt
+# SRS141.py
 from backtest_engine import BackTestSA
-import pandas as pd
-import numpy as np
 import matplotlib.pyplot as plt
-import logging
 from logger import MyLogger
 
 #logging.disable(logging.CRITICAL)  # uncomment to disable all loggers
@@ -29,23 +26,23 @@ class SRS141(BackTestSA):
         for row in self.dmgt.df.itertuples():
             if row.sigtime == 1:
                 self.entry_count = 0
-                log.logger.info("    sigtime")
+                # log.logger.info("    sigtime")
             if row.entry == 1 and row.long_ord != 0:
                 # Populating class variables if long entry
                 if not self.open_pos and self.entry_count < 1:
-                    self.stop_price = row.short_ord
-                    self.target_price = row.long_ord + (
+                    self.stop_price = row.long_ord
+                    self.target_price = row.short_ord + (
                                 row.long_ord - row.short_ord)
-                    self.open_long(row.t_plus)
+                    self.open_short(row.t_plus)
                 else:
                     self.add_zeros()
             elif row.entry == -1 and row.short_ord != 0:
                 # Populating class variables if short entry
                 if not self.open_pos and self.entry_count < 1:
-                    self.stop_price = row.long_ord
-                    self.target_price = row.short_ord - (
+                    self.stop_price = row.short_ord
+                    self.target_price = row.long_ord - (
                                 row.long_ord - row.short_ord)
-                    self.open_short(row.t_plus)
+                    self.open_long(row.t_plus)
                 else:
                     self.add_zeros()
             elif self.open_pos:
@@ -57,12 +54,14 @@ class SRS141(BackTestSA):
     def show_performance(self):
         plt.style.use('ggplot')
         self.dmgt.df.returns.cumsum().plot()
-        plt.title(f"Strategy results for {self.dmgt.timeframe} timeframe")
+        strat_name = self.__class__.__name__
+        tf = self.dmgt.timeframe
+        plt.title(f"Strategy results: {strat_name} {tf}")
         plt.show()
 
 
 if __name__ == '__main__':
-    csv_path = "data/test_data/btc_jan2023_with_orders.csv"
+    csv_path = "../data/results/SRS141/final_orders_ny.csv"
     date_col = 'timestamp'
 
     srs = SRS141(csv_path, date_col)

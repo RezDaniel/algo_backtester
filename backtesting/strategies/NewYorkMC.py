@@ -1,18 +1,14 @@
-from datetime import datetime as dt
 from backtest_engine import BackTestSA
-import pandas as pd
-import numpy as np
 import matplotlib.pyplot as plt
-import logging
 from logger import MyLogger
 
 #logging.disable(logging.CRITICAL)  # uncomment to disable all loggers
 
 # instance of MyLogger, add False as last param to disable.
-log = MyLogger('../data/results/logfile.log', "BTCMC3.py", True)
+log = MyLogger('../data/results/logfile.log', "NewYorkMC.py", True)
 
 
-class BTCMC3(BackTestSA):
+class NewYorkMC(BackTestSA):
     def __init__(self, csv_path, date_col):
         super().__init__(csv_path, date_col)
 
@@ -29,7 +25,7 @@ class BTCMC3(BackTestSA):
         for row in self.dmgt.df.itertuples():
             if row.sigtime == 1:
                 self.entry_count = 0
-                log.logger.info("    sigtime")
+                # log.logger.info("N/A")  # log the days of no open positions
             if row.entry == 1 and row.long_ord != 0:
                 # Populating class variables if long entry
                 if not self.open_pos and self.entry_count < 1:
@@ -57,15 +53,18 @@ class BTCMC3(BackTestSA):
     def show_performance(self):
         plt.style.use('ggplot')
         self.dmgt.df.returns.cumsum().plot()
-        plt.title(f"Strategy results for {self.dmgt.timeframe} timeframe")
+        strat_name = self.__class__.__name__
+        tf = self.dmgt.timeframe
+        plt.title(f"Strategy results: {strat_name} {tf} timeframe")
         plt.show()
 
 
 if __name__ == '__main__':
-    csv_path = "../data/test_data/BTCMC/final_test/orders_ny.csv"
+
+    csv_path = "../data/test_data/NewYorkMC/build/orders_ny.csv"
     date_col = 'timestamp'
 
-    mc = BTCMC3(csv_path, date_col)
+    mc = NewYorkMC(csv_path, date_col)
     mc.run_backtest()
     mc.show_performance()
     # print to terminal how many trades executed

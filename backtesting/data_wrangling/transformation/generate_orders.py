@@ -21,9 +21,9 @@ def generate_sigbar_orders(csv_path, date_col, output_csv):
 
 if __name__ == "__main__":
     # Input file paths
-    csv_path = "../../data/test_data/BTCMC/final_test/sigtime_ny.csv"
+    csv_path = "backtesting/data/results/SRS141/build/sigtime_ny.csv"
     date_col = "timestamp"
-    output_csv = "../../data/test_data/BTCMC/final_test/orders_ny.csv"
+    output_csv = "../../data/test_data/SRS141/build/orders_ny.csv"
 
     generate_sigbar_orders(csv_path, date_col, output_csv)
 

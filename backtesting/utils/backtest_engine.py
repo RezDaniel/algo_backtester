@@ -1,3 +1,5 @@
+# backtest_engine.py
+import os
 import pandas as pd
 import matplotlib.pyplot as plt
 from datamanager import DataManager
@@ -53,11 +55,11 @@ class BackTestSA:
         self.add_zeros()
 
         log.logger.info(
-            str(self.trade_count)
-            + " entry_count-" + str(int(self.entry_count))
-            + " L-" + str(int(self.entry_price))
-            + " tp-" + str((int(self.target_price)))
-            + " sl-" + str(int(self.stop_price)))
+            #str(self.trade_count)
+            #+ " entry_count-" + str(int(self.entry_count))
+            "long : " + str(int(self.entry_price))
+            + " tp : " + str((int(self.target_price)))
+            + " sl: " + str(int(self.stop_price)))
 
     def open_short(self, price):
         """
@@ -74,11 +76,11 @@ class BackTestSA:
         self.add_zeros()
 
         log.logger.info(
-            str(self.trade_count)
-            + " entry_count-" + str(int(self.entry_count))
-            + " S-" + str(int(self.entry_price))
-            + " tp-" + str(int(self.target_price))
-            + " sl-" + str(int(self.stop_price)))
+            #str(self.trade_count)
+            #+ " entry_count-" + str(int(self.entry_count))
+            "short: " + str(int(self.entry_price))
+            + " tp : " + str(int(self.target_price))
+            + " sl: " + str(int(self.stop_price)))
 
     def reset_variables(self):
         """
@@ -104,6 +106,14 @@ class BackTestSA:
         """
         pnl = (price / self.entry_price - 1) * self.direction
         self.process_close_var(pnl)
+
+        log.logger.info(
+            "close: " + str((int(price)))
+            + " pips: "
+            + str((int(self.entry_price - price) * self.direction) * - 1)
+            + " pnl: " + str("{:.1f}%".format(pnl * 100))
+            + "\n")
+
         self.reset_variables()
 
     def process_close_var(self, pnl):
