@@ -3,10 +3,10 @@ from datamanager import DataManager
 
 
 def main():
-    csv_path = '../../data/test_data/build_data.csv'
+    csv_path = '../../data/clean_data/cleaned_dax_jun2023_timecols.csv'
     date_col = 'timestamp'
     output_csv = \
-        '../../data/test_data/SRS141/build/sigtime_ny.csv'
+        '../../data/results/SRS141/sigtime_dax_jun2023.csv'
 
     dmgt = DataManager(csv_path, date_col)
 

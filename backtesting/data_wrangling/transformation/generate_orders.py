@@ -14,16 +14,16 @@ def generate_sigbar_orders(csv_path, date_col, output_csv):
     dmgt = DataManager(csv_path, date_col)
 
     # Generate orders using the specified lookback period for sigtime in min.
-    lookback = 60
+    lookback = 15
     buffer = 2
     dmgt.generate_orders(lookback, buffer, output_csv)
 
 
 if __name__ == "__main__":
     # Input file paths
-    csv_path = "backtesting/data/results/SRS141/build/sigtime_ny.csv"
+    csv_path = "../../data/results/SRS141/sigtime_dax_jun2023.csv"
     date_col = "timestamp"
-    output_csv = "../../data/test_data/SRS141/build/orders_ny.csv"
+    output_csv = "../../data/results/SRS141/orders_dax_jun2023.csv"
 
     generate_sigbar_orders(csv_path, date_col, output_csv)
 

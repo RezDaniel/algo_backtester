@@ -37,6 +37,8 @@
       <sourceFolder url="file://$MODULE_DIR$/backtesting/data/test_data/NewYorkMC/build" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/backtesting/data/test_data/NewYorkMC/final" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/backtesting/data/test_data/NewYorkMC/optimise" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/backtesting/data/clean_data/dax" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/backtesting/data/results/BTCSRS141fade" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/live_trading" isTestSource="false" />
     </content>
     <orderEntry type="inheritedJdk" />

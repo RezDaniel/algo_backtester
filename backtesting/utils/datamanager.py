@@ -38,7 +38,7 @@ class DataManager:
         if check_both:
             time_columns = ['time_newyork', 'time_london']
         else:
-            time_columns = ['time_newyork']  # can change time_zone here
+            time_columns = ['time_germany']  # can change time_zone here
 
         for time_column in time_columns:
             # Check if the specified time_column exists in the DataFrame
@@ -61,8 +61,8 @@ class DataManager:
                         row['time_london'].minute == 0:
                     return 1
             else:
-                if row['time_newyork'].hour == 8 and \
-                        row['time_newyork'].minute == 0:
+                if row['time_germany'].hour == 9 and \
+                        row['time_germany'].minute == 30:
                     return 1
 
             return 0
