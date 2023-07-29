@@ -27,6 +27,7 @@ class BackTestSA:
         self.entry_count = 0  # count number of times sig executed
         self.trade_count = 0  # count how many times signal has been taken
         self.open_pos = False
+        self.timestamp = None
         self.entry_price = 0
         self.direction = 0
         self.target_price = 0
@@ -57,7 +58,8 @@ class BackTestSA:
         log.logger.info(
             #str(self.trade_count)
             #+ " entry_count-" + str(int(self.entry_count))
-            "long : " + str(int(self.entry_price))
+            str(self.timestamp)
+            + " long : " + str(int(self.entry_price))
             + " tp : " + str((int(self.target_price)))
             + " sl: " + str(int(self.stop_price)))
 
@@ -78,7 +80,8 @@ class BackTestSA:
         log.logger.info(
             #str(self.trade_count)
             #+ " entry_count-" + str(int(self.entry_count))
-            "short: " + str(int(self.entry_price))
+            str(self.timestamp)
+            + " short: " + str(int(self.entry_price))
             + " tp : " + str(int(self.target_price))
             + " sl: " + str(int(self.stop_price)))
 
@@ -87,6 +90,7 @@ class BackTestSA:
         resets the variables after we close a trade
         """
         self.open_pos = False
+        self.timestamp = None
         self.entry_price = 0
         self.direction = 0
         self.target_price = 0
@@ -108,7 +112,8 @@ class BackTestSA:
         self.process_close_var(pnl)
 
         log.logger.info(
-            "close: " + str((int(price)))
+            str(self.timestamp)
+            + " close: " + str((int(price)))
             + " pips: "
             + str((int(self.entry_price - price) * self.direction) * - 1)
             + " pnl: " + str("{:.1f}%".format(pnl * 100))
@@ -131,15 +136,19 @@ class BackTestSA:
     def monitor_open_positions(self, price, timestamp):
         # check if target breached for long positions
         if price >= self.target_price and self.direction == 1:
+            self.timestamp = timestamp
             self.close_position(price)
         # check if stop-loss breached for long positions
         elif price <= self.stop_price and self.direction == 1:
+            self.timestamp = timestamp
             self.close_position(price)
         # check if target breached for short positions
         elif price <= self.target_price and self.direction == -1:
+            self.timestamp = timestamp
             self.close_position(price)
         # check if stop-loss breached for short positions
         elif price >= self.stop_price and self.direction == -1:
+            self.timestamp = timestamp
             self.close_position(price)
 
         # if all above conditions not true, append a zero to returns column

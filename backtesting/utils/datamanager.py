@@ -62,7 +62,7 @@ class DataManager:
                     return 1
             else:
                 if row['time_germany'].hour == 9 and \
-                        row['time_germany'].minute == 30:
+                        row['time_germany'].minute == 20:
                     return 1
 
             return 0
