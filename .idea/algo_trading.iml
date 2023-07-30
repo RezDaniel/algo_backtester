@@ -15,7 +15,6 @@
       <sourceFolder url="file://$MODULE_DIR$/backtesting/data/raw_data" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/backtesting/data/transformation" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/backtesting/utils" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/backtesting/visualisation" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/backtesting/data/results" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/backtesting/data/test_data" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/backtesting/data_wrangling" isTestSource="false" />
@@ -40,6 +39,7 @@
       <sourceFolder url="file://$MODULE_DIR$/backtesting/data/clean_data/dax" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/backtesting/data/results/BTCSRS141fade" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/backtesting/data/results/ASRS141" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/backtesting/visualisations" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/live_trading" isTestSource="false" />
     </content>
     <orderEntry type="inheritedJdk" />
