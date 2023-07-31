@@ -6,7 +6,7 @@ def main():
     csv_path = '../../data/clean_data/cleaned_dax_jan2023_timecols.csv'
     date_col = 'timestamp'
     output_csv = \
-        '../../data/results/ASRS141/sigtime_dax_jan2023.csv'
+        '../../data/results/AVW141/sigtime_dax_jan2023.csv'
 
     dmgt = DataManager(csv_path, date_col)
 

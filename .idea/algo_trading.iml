@@ -28,18 +28,18 @@
       <sourceFolder url="file://$MODULE_DIR$/backtesting/data/test_data/BTCMC/testing" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/backtesting/data_wrangling/integration" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/backtesting/data/results/NewYorkMC" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/backtesting/data/results/SRS141" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/backtesting/data/results/SRS141/build" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/backtesting/data/results/SRS141/final" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/backtesting/data/results/SRS141/optimise" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/backtesting/data/test_data/NewYorkMC" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/backtesting/data/test_data/NewYorkMC/build" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/backtesting/data/test_data/NewYorkMC/final" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/backtesting/data/test_data/NewYorkMC/optimise" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/backtesting/data/clean_data/dax" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/backtesting/data/results/BTCSRS141fade" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/backtesting/data/results/ASRS141" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/backtesting/visualisations" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/backtesting/data/results/AVW141" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/backtesting/data/results/BTCVW141fade" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/backtesting/data/results/VW141" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/backtesting/data/results/VW141/build" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/backtesting/data/results/VW141/final" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/backtesting/data/results/VW141/optimise" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/live_trading" isTestSource="false" />
     </content>
     <orderEntry type="inheritedJdk" />

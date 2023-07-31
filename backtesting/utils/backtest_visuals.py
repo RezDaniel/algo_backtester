@@ -1,4 +1,5 @@
 # backtest_visuals.py
+from matplotlib.backends.backend_pdf import PdfPages
 import animations
 import plots
 import pandas as pd
@@ -45,7 +46,8 @@ class DataLoader:
 
 if __name__ == '__main__':
     # Create an instance of DataLoader, replace with your actual file path
-    loader = DataLoader('../data/results/SRS141/SRS141_backtest_results.csv')
+    loader = DataLoader(
+        'backtesting/data/results/VW141/SRS141_backtest_results.csv')
 
     # Load the data
     df = loader.load_csv()
@@ -59,18 +61,19 @@ if __name__ == '__main__':
     df['timestamp'] = pd.to_datetime(df['timestamp'])
 
     # Call the visualisations functions
-    plots.cumulative_returns_per_trade(df)
-    plots.monthly_cumulative_returns(df)
-    plots.win_loss_pie_chart(df)
-    plots.win_loss_ratio(df)
-    plots.drawdown_lengths(df)
-    plots.win_loss_heatmap(df)
-    plots.density_plots(df)
+    with PdfPages('backtesting/data/results/VW141/vw141_backtest_result_plots.pdf') as pdf_pages:
+        plots.cumulative_returns_per_trade(df, pdf_pages)
+        plots.monthly_cumulative_returns(df, pdf_pages)
+        plots.win_loss_pie_chart(df, pdf_pages)
+        plots.win_loss_ratio(df, pdf_pages)
+        plots.drawdown_lengths(df, pdf_pages)
+        plots.win_loss_heatmap(df, pdf_pages)
+        plots.density_plots(df, pdf_pages)
 
-    #plots.cumulative_wins_3d(df)
-    #plots.monthly_win_loss_bar(df)
-    #plots.box_plots_by_month(df)
-    #plots.win_loss_scatter_plot(df)
+        #plots.cumulative_wins_3d(df, pdf_pages)
+        #plots.monthly_win_loss_bar(df, pdf_pages)
+        #plots.box_plots_by_month(df, pdf_pages)
+        #plots.win_loss_scatter_plot(df, pdf_pages)
 
     # Call the animated functions
     animations.win_loss_ratio_animation(df)

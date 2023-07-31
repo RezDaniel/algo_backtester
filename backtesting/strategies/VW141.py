@@ -1,4 +1,4 @@
-# SRS141.py
+# VW141.py
 from backtest_engine import BackTestSA
 import matplotlib.pyplot as plt
 from logger import MyLogger
@@ -6,10 +6,10 @@ from logger import MyLogger
 #logging.disable(logging.CRITICAL)  # uncomment to disable all loggers
 
 # instance of MyLogger, add False as last param to disable.
-log = MyLogger('results/logfile.txt', "SRS141.py", True)
+log = MyLogger('results/logfile.txt', "VW141.py", True)
 
 
-class SRS141(BackTestSA):
+class VW141(BackTestSA):
     def __init__(self, csv_path, date_col):
         super().__init__(csv_path, date_col)
 
@@ -63,10 +63,10 @@ class SRS141(BackTestSA):
 
 
 if __name__ == '__main__':
-    csv_path = "../data/results/SRS141/orders_dax_jun2023.csv"
+    csv_path = "backtesting/data/results/VW141/orders_dax_jun2023.csv"
     date_col = 'timestamp'
 
-    srs = SRS141(csv_path, date_col)
+    srs = VW141(csv_path, date_col)
     srs.run_backtest()
     srs.show_performance()
     # print to terminal how many trades executed
