@@ -61,7 +61,7 @@ class BTCVW141fade(BackTestSA):
 
 
 if __name__ == '__main__':
-    csv_path = "backtesting/data/results/BTCVW141fade/final_orders_ny.csv"
+    csv_path = "../data/results/BTCVW141fade/final_orders_ny.csv"
     date_col = 'timestamp'
 
     srs = BTCVW141fade(csv_path, date_col)

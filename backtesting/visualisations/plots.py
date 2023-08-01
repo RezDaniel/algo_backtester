@@ -41,14 +41,16 @@ def monthly_cumulative_returns(df, pdf_pages):
 
     plt.figure(figsize=(12, 6))
 
-    # Convert PeriodIndex to string representation for plotting
-    x_labels = cumulative_returns.index.strftime('%b %y')
+    # Create a new sequence of numbers for the x-axis
+    x_values = np.arange(len(cumulative_returns))
 
     # Plot cumulative returns
-    plt.plot(x_labels, cumulative_returns, label='Cumulative Return', color='blue', marker='o')
+    plt.plot(x_values, cumulative_returns, label='Cumulative Return', color='blue', marker='o')
 
     plot_common_config(f'Monthly Cumulative Return (Total Trades: {len(df)})', 'Month', 'Cumulative Return', ['Cumulative Return'])
-    plt.xticks(ha='center')
+
+    # Adjust x-axis labels to correspond to months
+    plt.xticks(x_values, cumulative_returns.index.strftime('%b%y'), rotation=45, ha='right')
     save_plot(pdf_pages)
     plt.show()
 
@@ -56,26 +58,30 @@ def monthly_cumulative_returns(df, pdf_pages):
 def cumulative_returns_per_trade(df, pdf_pages):
     df['Cumulative Returns'] = df['returns'].cumsum()
 
+    # Create a new column 'Trade Number'
+    df['Trade Number'] = range(1, len(df) + 1)
+
     plt.figure(figsize=(12, 6))
 
-    # Plot cumulative returns per trade
-    plt.plot(df.index, df['Cumulative Returns'],
+    # Plot cumulative returns per trade using the 'Trade Number' column
+    plt.plot(df['Trade Number'], df['Cumulative Returns'],
              label='Cumulative Returns per Trade', color='blue', marker='o')
 
-    plot_common_config(f'Cumulative Returns per Trade (Total Trades: {len(df)})', 'Trade Number', 'Cumulative Returns', ['Cumulative Returns per Trade'])
-    x_ticks = np.linspace(0, len(df), num=25, dtype=int)
+    plot_common_config(f'Cumulative Returns per Trade (Total Trades: {len(df)})',
+                       'Trade Number', 'Cumulative Returns', ['Cumulative Returns per Trade'])
+    x_ticks = np.linspace(1, len(df), num=25, dtype=int)
     plt.xticks(x_ticks, ha='center')
     save_plot(pdf_pages)
     plt.show()
 
 
 def win_loss_pie_chart(df, pdf_pages):
-    win_loss_counts = df['returns'].value_counts()
-    win_loss_counts.index = ['Win' if i == 1 else 'Loss' for i
-                             in win_loss_counts.index]
+    filtered_df = df[df['returns'] != 0].copy()  # Make a copy to avoid SettingWithCopyWarning
+    filtered_df['TradeResult'] = ['Win' if i > 0 else 'Loss' for i in filtered_df['returns']]
 
-    win_loss_counts.plot(kind='pie', autopct='%1.1f%%', startangle=140,
-                         figsize=(6, 6))
+    win_loss_counts = filtered_df['TradeResult'].value_counts()
+
+    win_loss_counts.plot(kind='pie', autopct='%1.1f%%', startangle=140, figsize=(6, 6))
     plt.ylabel('')  # This is to remove the 'None' ylabel.
     plot_common_config('Win/Loss Proportions', '', '')
     save_plot(pdf_pages)
@@ -126,22 +132,29 @@ def monthly_win_loss_bar(df, pdf_pages):
 
 
 def win_loss_ratio(df, pdf_pages):
-    df['Win'] = (df['returns'] == 1).astype(int)
+    df['Win'] = (df['returns'] > 0).astype(int)
     df['Cumulative Wins'] = df['Win'].cumsum()
-    df['Cumulative Trades'] = df.index + 1
+
+    # Compute 'Cumulative Trades' based on row number, not index
+    df['Cumulative Trades'] = [i + 1 for i, _ in enumerate(df['returns'])]
+
     df['Win/Loss Ratio'] = df['Cumulative Wins'] / df['Cumulative Trades']
 
     fig, ax = plt.subplots(figsize=(12, 6))
-    ax.plot(df['timestamp'], df['Win/Loss Ratio'], color=mcolors.to_rgba(
-        'blue', alpha=0.8), linewidth=2)
+    ax.plot(df['timestamp'], df['Win/Loss Ratio'],
+            color=mcolors.to_rgba('blue', alpha=0.8), linewidth=2)
 
     # Set the date format for the x-axis to "Jan23"
-    date_format = mdates.DateFormatter('%b%y')
+    date_format = mdates.DateFormatter('%b %y')
     ax.xaxis.set_major_formatter(date_format)
 
     plot_common_config('Win/Loss Ratio Over Time', 'Month', 'Win/Loss Ratio')
-    ax.xaxis.set_major_locator(plt.MaxNLocator(12))
-    plt.xticks()  # Rotate x-axis labels for better visibility
+
+    # Get the number of months in the date range
+    months = pd.date_range(start=df['timestamp'].min(),
+                           end=df['timestamp'].max(), freq='M')
+    plt.xticks(months, months.strftime('%b%y'), rotation=45)  # rotate labels
+
     save_plot(pdf_pages)
     plt.show()
 
@@ -156,10 +169,15 @@ def win_loss_heatmap(df, pdf_pages):
     heatmap_data = df.groupby(['Year', 'Month'])['returns'].sum().unstack()
 
     plt.figure(figsize=(12, 6))
-    sns.heatmap(heatmap_data, cmap='coolwarm', center=0)
+    ax = sns.heatmap(heatmap_data, cmap='coolwarm', center=0)
     plot_common_config('Win/Loss Heatmap by Month', '', '')
+
+    # Rotate y-axis labels
+    ax.set_yticklabels(ax.get_yticklabels(), rotation=0)
+
     save_plot(pdf_pages)
     plt.show()
+
 
 
 def box_plots_by_month(df, pdf_pages):
@@ -175,9 +193,9 @@ def box_plots_by_month(df, pdf_pages):
 
 def density_plots(df, pdf_pages):
     # Define losing streaks
-    df['Drawdown'] = (df['returns'] == -1).astype(int)
+    df['Drawdown'] = (df['returns'] < 0).astype(int)
     losing_streaks = (df['Drawdown'].diff() != 0).cumsum()
-    losing_streaks = losing_streaks[df['Drawdown'] == 1].value_counts().values
+    losing_streaks = losing_streaks[df['Drawdown'] > 0].value_counts().values
 
     plt.figure(figsize=(12, 6))
     sns.kdeplot(losing_streaks, fill=True, color='salmon')
@@ -186,9 +204,9 @@ def density_plots(df, pdf_pages):
     plt.show()
 
     # Define winning streaks
-    df['Winning'] = (df['returns'] == 1).astype(int)
+    df['Winning'] = (df['returns'] > 0).astype(int)
     winning_streaks = (df['Winning'].diff() != 0).cumsum()
-    winning_streaks = winning_streaks[df['Winning'] == 1].value_counts().values
+    winning_streaks = winning_streaks[df['Winning'] > 0].value_counts().values
 
     plt.figure(figsize=(12, 6))
     sns.kdeplot(winning_streaks, fill=True, color='skyblue')
