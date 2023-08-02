@@ -32,6 +32,47 @@ def plot_common_config(title, xlabel, ylabel, legend=None):
     manager.window.showMaximized()
 
 
+def trade_direction_accuracy(df, pdf_pages):
+    long_trades = df[df['direction'] == 1]
+    short_trades = df[df['direction'] == -1]
+
+    long_winners = long_trades[long_trades['returns'] > 0]
+    short_winners = short_trades[short_trades['returns'] > 0]
+
+    # Calculate total trades and winning percentages
+    total = [len(long_trades), len(short_trades)]
+    winners = [len(long_winners), len(short_winners)]
+    winners_percent = [(winners[i] / total[i]) * 100 for i in
+                       range(len(winners))]
+
+    labels = ['Long Trades', 'Short Trades']
+
+    x = np.arange(len(labels))  # the label locations
+    width = 0.35  # the width of the bars
+
+    fig, ax1 = plt.subplots()
+
+    # Create twin axes that share the same x-axis
+    ax2 = ax1.twinx()
+
+    rects1 = ax1.bar(x - width / 2, total, width, label='Total', color='blue')
+    rects2 = ax2.bar(x + width / 2, winners_percent, width, label='Winners (%)',
+                     color='orange')
+
+    # Add some text for labels, title and custom x-axis tick labels, etc.
+    ax1.set_ylabel('Total Trades')
+    ax2.set_ylabel('Winning Percentage (%)')
+    ax1.set_title('Total and Winning Percentage of Trades by Type')
+    ax1.set_xticks(x)
+    ax1.set_xticklabels(labels)
+    ax1.legend(loc='upper left')
+    ax2.legend(loc='upper right')
+
+    fig.tight_layout()
+    save_plot(pdf_pages)
+    plt.show()
+
+
 def monthly_cumulative_returns(df, pdf_pages):
     df['YearMonth'] = df['timestamp'].dt.to_period('M')
     monthly_returns = df.groupby(['YearMonth'])['returns'].sum()

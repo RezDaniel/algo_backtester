@@ -1,3 +1,4 @@
+# backtest_stats.py
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -182,7 +183,7 @@ class BacktestProfile:
 if __name__ == '__main__':
     # change this to the path of your backtest results
     bt = pd.read_csv(
-        "../data/results/SRS141_1min-dax.csv")
+        "../data/results/MovingAverageStrategy_1min-btc.csv")
     freq = '1min'
     BT = BacktestProfile(bt, freq)
-    BT.show_perf("SRS141_1min-final_data")
+    BT.show_perf("results")

@@ -40,6 +40,7 @@
       <sourceFolder url="file://$MODULE_DIR$/backtesting/data/results/VW141/build" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/backtesting/data/results/VW141/final" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/backtesting/data/results/VW141/optimise" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/backtesting/data/test_data/RipVanWinkle" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/live_trading" isTestSource="false" />
     </content>
     <orderEntry type="inheritedJdk" />

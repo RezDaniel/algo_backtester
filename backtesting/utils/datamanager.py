@@ -27,6 +27,8 @@ class DataManager:
         self.df = self.data.resample(new_timeframe).agg(resample_dict)
         self.timeframe = new_timeframe
 
+        return self.df
+
     def update_sigtime_column(self, output_csv, check_both=False):
         """
         Update the 'sigtime' column based on the conditions specified.

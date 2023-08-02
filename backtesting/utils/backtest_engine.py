@@ -6,7 +6,7 @@ from datamanager import DataManager
 from logger import MyLogger
 
 # instance of MyLogger, add False as last param to disable.
-log = MyLogger('../data/results/logfile.log', "backtest_engine.py")
+log = MyLogger('data/results/logfile.log', "backtest_engine.py", False)
 
 
 class BackTestSA:

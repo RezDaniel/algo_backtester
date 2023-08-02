@@ -6,7 +6,7 @@ from matplotlib.backends.backend_pdf import PdfPages
 
 
 def main():
-    file_path = '../data/results/VW141/VW141_backtest_results.csv'
+    file_path = '../data/results/HigherLower_120min.csv'
     df = pd.read_csv(file_path, parse_dates=['timestamp'], dayfirst=True)
 
     # Ignore rows with returns of 0
@@ -14,13 +14,14 @@ def main():
 
     df['timestamp'] = pd.to_datetime(df['timestamp'])
 
-    with PdfPages('../data/results/VW141/vw141_total_period_plots') as pdf_pages:
+    with PdfPages('../data/results/HigherLower_plots') as pdf_pages:
         plot_functions = [plots.cumulative_returns_per_trade,
-                          plots.monthly_cumulative_returns,
-                          plots.win_loss_pie_chart,
-                          plots.win_loss_ratio,
-                          plots.drawdown_lengths,
-                          plots.win_loss_heatmap,
+                          plots.trade_direction_accuracy,
+                         # plots.monthly_cumulative_returns,
+                         # plots.win_loss_pie_chart,
+                         # plots.win_loss_ratio,
+                         # plots.drawdown_lengths,
+                         # plots.win_loss_heatmap,
                           # plots.cumulative_wins_3d,
                           # plots.monthly_win_loss_bar,
                           # plots.box_plots_by_month,
