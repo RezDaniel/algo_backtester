@@ -42,8 +42,10 @@ def trade_direction_accuracy(df, pdf_pages):
     # Calculate total trades and winning percentages
     total = [len(long_trades), len(short_trades)]
     winners = [len(long_winners), len(short_winners)]
-    winners_percent = [(winners[i] / total[i]) * 100 for i in
-                       range(len(winners))]
+
+    # Avoid division by zero error
+    winners_percent = [(winners[i] / total[i]) * 100 if total[i] != 0 else 0 for
+                       i in range(len(winners))]
 
     labels = ['Long Trades', 'Short Trades']
 
@@ -69,6 +71,10 @@ def trade_direction_accuracy(df, pdf_pages):
     ax2.legend(loc='upper right')
 
     fig.tight_layout()
+    # This will maximize the plot window
+    manager = plt.get_current_fig_manager()
+    manager.window.showMaximized()
+
     save_plot(pdf_pages)
     plt.show()
 
@@ -130,7 +136,7 @@ def win_loss_pie_chart(df, pdf_pages):
 
 
 def drawdown_lengths(df, pdf_pages):
-    df['Drawdown'] = (df['returns'] == -1).astype(int)
+    df['Drawdown'] = (df['returns'] < 0).astype(int)
     drawdowns = (df['Drawdown'].diff() != 0).cumsum()
     drawdowns = drawdowns[df['Drawdown'] == 1].value_counts().values
 
@@ -145,31 +151,19 @@ def drawdown_lengths(df, pdf_pages):
         max_frequency = max(bin_heights)
         plt.hist(drawdowns, bins=range(1, max(drawdowns) + 2),
                  align='left', rwidth=0.8)
-        plt.yticks(np.arange(0, max_frequency+1, 2))
+
+        step_size = max(1, max_frequency // 10)  # Ensure at least 1
+        plt.yticks(np.arange(0, max_frequency + 1,
+                             step_size))  # Adjust the interval for y-ticks
         # Set x-axis ticks with step size 1
-        plt.xticks(np.arange(1, max(drawdowns)+1, 1))
-        plot_common_config(f'Histogram of Drawdown Lengths (Total Trades: {total_trades})', 'Consecutive losing trades', 'Frequency')
+        plt.xticks(np.arange(1, max(drawdowns) + 1, 1),
+                   rotation=45)  # Added rotation here
+        plt.xlim([1, max(drawdowns) + 1])  # Set x-axis limits here
+        plot_common_config(
+            f'Histogram of Drawdown Lengths (Total Trades: {total_trades})',
+            'Consecutive losing trades', 'Frequency')
         save_plot(pdf_pages)
         plt.show()
-
-
-def monthly_win_loss_bar(df, pdf_pages):
-    df['YearMonth'] = df['timestamp'].dt.to_period('M')
-    monthly_counts = df.groupby(['YearMonth', 'returns']).size().unstack(
-        fill_value=0)
-    monthly_counts = monthly_counts[[1, -1]]
-
-    # Convert the index to 'Jan23' format
-    monthly_counts.index = monthly_counts.index.strftime('%b %y')
-
-    monthly_counts.plot(kind='bar', stacked=True, figsize=(12, 6),
-                        color=['lightblue', 'salmon'])
-    plt.xticks(ha='center')
-    plot_common_config(f'Monthly Win/Loss Counts (Total Trades: {len(df)})', 'Month', 'Number of Trades')
-    plt.gcf().autofmt_xdate()
-    plt.subplots_adjust(bottom=0.25)
-    save_plot(pdf_pages)
-    plt.show()
 
 
 def win_loss_ratio(df, pdf_pages):
@@ -218,7 +212,6 @@ def win_loss_heatmap(df, pdf_pages):
 
     save_plot(pdf_pages)
     plt.show()
-
 
 
 def box_plots_by_month(df, pdf_pages):
@@ -288,7 +281,7 @@ def win_loss_scatter_plot(df, pdf_pages):
                 alpha=0.5)
     plt.plot(df['TradeNumber'], df['returns'], color='black', linewidth=0.5,
              alpha=0.5)  # added line plot
-    plt.yticks([0, 1])  # set yticks to just 1 or 0
+    #plt.yticks([0, 1])  # set yticks to just 1 or 0
     plot_common_config('Win/Loss Scatter Plot', 'Trade Number', 'returns')
     save_plot(pdf_pages)
     plt.show()

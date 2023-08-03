@@ -1,10 +1,8 @@
-import numpy as np
-import pandas as pd
 import matplotlib.pyplot as plt
 from backtest_engine import BackTestSA
 
 
-class RipVanWinkle(BackTestSA):
+class RVWBull(BackTestSA):
 
     def __init__(self, csv_path, date_col):
         super().__init__(csv_path, date_col)
@@ -28,10 +26,8 @@ class RipVanWinkle(BackTestSA):
         self.generate_signals()
         for row in self.dmgt.df.itertuples():
             # If there's an entry signal and no open position, open a position
-            if row.entry != 0 and not self.open_pos:
-                self.open_long(
-                    row.t_plus) if row.entry == 1 else self.open_short(
-                    row.t_plus)
+            if row.entry == 1 and not self.open_pos:
+                self.open_long(row.t_plus)
             # If there's an entry signal and an open position in the opposite
             # direction, close the position
             elif row.entry * self.direction == -1 and self.open_pos:
@@ -51,10 +47,10 @@ class RipVanWinkle(BackTestSA):
 
 
 if __name__ == '__main__':
-    csv_path = '../data/test_data/RipVanWinkle/cleaned_btc_4hr.csv'
+    csv_path = '../data/test_data/RipVanWinkle/cleaned_btc_2023.csv'
     date_col = 'timestamp'
 
-    rvw = RipVanWinkle(csv_path, date_col)
+    rvw = RVWBull(csv_path, date_col)
 
     rvw.run_backtest()
     rvw.show_performance()
@@ -62,4 +58,4 @@ if __name__ == '__main__':
     print(abs(rvw.dmgt.df.direction).sum())
 
     # Uncomment if you wish to save the backtest to the folder
-    rvw.save_backtest("btc")
+    rvw.save_backtest("btc_2023")

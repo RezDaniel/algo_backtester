@@ -78,10 +78,33 @@ class BackTestSA:
         self.add_zeros()
 
         log.logger.info(
-            #str(self.trade_count)
-            #+ " entry_count-" + str(int(self.entry_count))
             str(self.timestamp)
             + " short: " + str(int(self.entry_price))
+            + " tp : " + str(int(self.target_price))
+            + " sl: " + str(int(self.stop_price)))
+
+    def reverse_position(self, price, cur_pos_dir):
+        """
+
+        :param price: price we open position at
+        :cur_pos_dir: direction of current position being closed and reversed
+        :return: populates trade variables from constructor with relevant
+        variables
+        """
+        self.open_pos = True
+        self.entry_price = price
+        self.trade_count += 1
+        self.entry_count += 1
+
+        if cur_pos_dir == 1:
+            self.direction = -1
+        else:
+            self.direction = 1
+
+        log.logger.info(
+            str(self.timestamp)
+            + " dir: " + str(int(self.direction))
+            + " entry: " + str(int(self.entry_price))
             + " tp : " + str(int(self.target_price))
             + " sl: " + str(int(self.stop_price)))
 
@@ -203,7 +226,8 @@ class BackTestSA:
         strat_name = self.__class__.__name__
         tf = self.dmgt.timeframe
         self.dmgt.df.to_csv(
-            f"../data/results/{strat_name}_{tf}-{instrument}.csv")
+            #f"../data/results/{strat_name}_{tf}-{instrument}.csv")
+            f"../data/results/{strat_name}_{instrument}.csv")
 
 
 
