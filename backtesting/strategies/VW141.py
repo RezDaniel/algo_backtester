@@ -63,7 +63,7 @@ class VW141(BackTestSA):
 
 
 if __name__ == '__main__':
-    csv_path = "backtesting/data/results/VW141/orders_dax_jun2023.csv"
+    csv_path = "../data/results/VW141/orders_dax_jun2023.csv"
     date_col = 'timestamp'
 
     srs = VW141(csv_path, date_col)

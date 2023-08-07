@@ -42,6 +42,8 @@
       <sourceFolder url="file://$MODULE_DIR$/backtesting/data/results/VW141/optimise" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/backtesting/data/test_data/RipVanWinkle" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/backtesting/data/results/RVW" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/backtesting/data/results/TheWeeklyChill" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/backtesting/data/test_data/TWC" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/live_trading" isTestSource="false" />
     </content>
     <orderEntry type="inheritedJdk" />

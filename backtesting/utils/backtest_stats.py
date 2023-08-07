@@ -183,7 +183,7 @@ class BacktestProfile:
 if __name__ == '__main__':
     # change this to the path of your backtest results
     bt = pd.read_csv(
-        "../data/results/MovingAverageStrategy_1min-btc.csv")
+        "../data/results/TWC_v1_btc_2018-23.csv")
     freq = '1min'
     BT = BacktestProfile(bt, freq)
     BT.show_perf("results")

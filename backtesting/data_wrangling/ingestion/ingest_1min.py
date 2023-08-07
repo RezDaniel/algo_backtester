@@ -75,7 +75,7 @@ def get_data(date1, instrument, tf='1'):
 
 if __name__ == '__main__':
     #change this to two years prior to the day you are using this script
-    start = dt.datetime(2020, 8, 27, 0, 0)
+    start = dt.datetime(2023, 7, 24, 0, 0)
     instrument = "BTC-PERPETUAL"
     tf = "1"
 

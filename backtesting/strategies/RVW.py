@@ -51,7 +51,7 @@ class RVW(BackTestSA):
 
 
 if __name__ == '__main__':
-    csv_path = '../data/test_data/RipVanWinkle/cleaned_btc_2023.csv'
+    csv_path = '../data/test_data/RipVanWinkle/cleaned_btc_2021.csv'
     date_col = 'timestamp'
 
     rvw = RVW(csv_path, date_col)
@@ -62,4 +62,4 @@ if __name__ == '__main__':
     print(abs(rvw.dmgt.df.direction).sum())
 
     # Uncomment if you wish to save the backtest to the folder
-    rvw.save_backtest("btc_2023")
+    rvw.save_backtest("btc_2021")
