@@ -1,17 +1,24 @@
-from datamanager import DataManager
-
-# __main.py__
-
-if __name__ == '__main__':
-    csv_path = "data/clean_data/cleaned_btc.csv"
-    output_csv = "data/test_data/RipVanWinkle/cleaned_btc_4hr_test.csv"
-    date_col = 'timestamp'
-    max_holding = 10
-
-    RS = DataManager(csv_path, date_col)
-    df = RS.change_resolution("240min")
-
-    df.to_csv(output_csv, index=True)
+import pandas as pd
+import matplotlib.pyplot as plt
+import datetime as dt
+import numpy as np
+from pandas.plotting import register_matplotlib_converters
 
 
+register_matplotlib_converters()
+plt.style.use('ggplot')
 
+#load in data from previous video
+df = pd.read_csv('data/clean_data/cleaned_btc_weekly.csv')
+
+
+#change timestamp column to datetime
+df['timestamp'] = pd.to_datetime(df['timestamp'])
+
+#drop duplicates
+df.drop_duplicates(subset=['timestamp'],
+                   keep='first',
+                   inplace=True)
+df.reset_index(inplace=True)
+
+plt.plot(df.timestamp, df.close)
