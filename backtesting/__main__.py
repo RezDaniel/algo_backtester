@@ -1,24 +1,18 @@
 import pandas as pd
-import matplotlib.pyplot as plt
-import datetime as dt
-import numpy as np
-from pandas.plotting import register_matplotlib_converters
 
 
-register_matplotlib_converters()
-plt.style.use('ggplot')
+def convert_and_save(csv_path, output_path):
+    # Load the CSV into a DataFrame
+    df = pd.read_csv(csv_path, parse_dates=['timestamp'])
 
-#load in data from previous video
-df = pd.read_csv('data/clean_data/cleaned_btc_weekly.csv')
+    # Convert the 'timestamp' column to the desired format
+    df['timestamp'] = df['timestamp'].dt.strftime('%Y/%m/%d')
+
+    # Save the DataFrame back to a new CSV file
+    df.to_csv(output_path, index=False)
 
 
-#change timestamp column to datetime
-df['timestamp'] = pd.to_datetime(df['timestamp'])
-
-#drop duplicates
-df.drop_duplicates(subset=['timestamp'],
-                   keep='first',
-                   inplace=True)
-df.reset_index(inplace=True)
-
-plt.plot(df.timestamp, df.close)
+# Use the function
+input_csv = 'data/test_data/TWC/cleaned_btc_1w_2018.csv'
+output_csv = 'data/test_data/TWC/converted_btc_1w_2018.csv'
+convert_and_save(input_csv, output_csv)

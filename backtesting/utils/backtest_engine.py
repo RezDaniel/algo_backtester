@@ -55,13 +55,13 @@ class BackTestSA:
         self.entry_count += 1
         self.add_zeros()
 
-        log.logger.info(
-            #str(self.trade_count)
-            #+ " entry_count-" + str(int(self.entry_count))
-            str(self.timestamp)
-            + " long : " + str(int(self.entry_price))
-            + " tp : " + str((int(self.target_price)))
-            + " sl: " + str(int(self.stop_price)))
+        # log.logger.info(
+        #     #str(self.trade_count)
+        #     #+ " entry_count-" + str(int(self.entry_count))
+        #     str(self.timestamp)
+        #     + " long : " + str(int(self.entry_price))
+        #     + " tp : " + str((int(self.target_price)))
+        #     + " sl: " + str(int(self.stop_price)))
 
     def open_short(self, price):
         """
@@ -77,11 +77,11 @@ class BackTestSA:
         self.entry_count += 1
         self.add_zeros()
 
-        log.logger.info(
-            str(self.timestamp)
-            + " short: " + str(int(self.entry_price))
-            + " tp : " + str(int(self.target_price))
-            + " sl: " + str(int(self.stop_price)))
+        # log.logger.info(
+        #     str(self.timestamp)
+        #     + " short: " + str(int(self.entry_price))
+        #     + " tp : " + str(int(self.target_price))
+        #     + " sl: " + str(int(self.stop_price)))
 
     def reverse_position(self, price, cur_pos_dir):
         """
@@ -101,12 +101,12 @@ class BackTestSA:
         else:
             self.direction = 1
 
-        log.logger.info(
-            str(self.timestamp)
-            + " dir: " + str(int(self.direction))
-            + " entry: " + str(int(self.entry_price))
-            + " tp : " + str(int(self.target_price))
-            + " sl: " + str(int(self.stop_price)))
+        # log.logger.info(
+        #     str(self.timestamp)
+        #     + " dir: " + str(int(self.direction))
+        #     + " entry: " + str(int(self.entry_price))
+        #     + " tp : " + str(int(self.target_price))
+        #     + " sl: " + str(int(self.stop_price)))
 
     def reset_variables(self):
         """
@@ -134,13 +134,13 @@ class BackTestSA:
         pnl = (price / self.entry_price - 1) * self.direction
         self.process_close_var(pnl)
 
-        log.logger.info(
-            str(self.timestamp)
-            + " close: " + str((int(price)))
-            + " pips: "
-            + str((int(self.entry_price - price) * self.direction) * - 1)
-            + " pnl: " + str("{:.1f}%".format(pnl * 100))
-            + "\n")
+        # log.logger.info(
+        #     str(self.timestamp)
+        #     + " close: " + str((int(price)))
+        #     + " pips: "
+        #     + str((int(self.entry_price - price) * self.direction) * - 1)
+        #     + " pnl: " + str("{:.1f}%".format(pnl * 100))
+        #     + "\n")
 
         self.reset_variables()
 

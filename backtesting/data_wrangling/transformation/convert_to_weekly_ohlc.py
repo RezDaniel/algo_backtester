@@ -1,44 +1,44 @@
 import pandas as pd
-import numpy as np
 
 
-def custom_resampler(array_like):
-    if len(array_like) > 8:
-        if array_like.name == 'open':
-            return array_like[8:].iloc[0]
-        elif array_like.name == 'high':
-            return array_like[8:-1].max()
-        elif array_like.name == 'low':
-            return array_like[8:-1].min()
-        elif array_like.name == 'close':
-            return array_like[:-1].iloc[-1]
-    else:
-        return np.nan
-
-def main():
+def calculate_weekly_ohlc(datafile, output_file):
     # Load the data
-    df = pd.read_csv('../../data/test_data/TWC/test_data.csv')
+    df = pd.read_csv(datafile)
 
-    # Convert the 'timestamp' column to datetime type
-    df['timestamp'] = pd.to_datetime(df['timestamp'])
-
-    # Set 'timestamp' as the index
+    # Convert 'timestamp' column to datetime
+    df['timestamp'] = pd.to_datetime(df['timestamp'], format='%Y/%m/%d %H:%M')
     df.set_index('timestamp', inplace=True)
 
-    # Shift time by 8 hours
-    df.index = df.index - pd.Timedelta(hours=8)
+    # Create new columns for weekly OHLC
+    df['weekly_open'] = None
+    df['weekly_high'] = None
+    df['weekly_low'] = None
+    df['weekly_close'] = None
 
-    # Resample to weekly frequency, using the custom resampling function
-    df_resampled = df.resample('W-MON').apply(custom_resampler)
+    # Identify rows that have timestamps corresponding to Monday 00:00
+    mondays = df[df.index.dayofweek == 0]  # 0 represents Monday in datetime
+    mondays = mondays[mondays.index.hour == 0]
+    mondays = mondays[mondays.index.minute == 0]
 
-    # Shift time back by 8 hours
-    df_resampled.index = df_resampled.index + pd.Timedelta(hours=8)
+    # Loop through the Mondays and compute the weekly OHLC
+    for monday in mondays.index:
+        # Adjust to get the next Sunday 23:59
+        next_sunday = (monday + pd.DateOffset(days=6)).replace(hour=23,
+                                                               minute=59,
+                                                               second=0)
 
-    # Write resampled dataframe to a new CSV file
-    df_resampled.to_csv('../../data/test_data/TWC/weekly_OHLC.csv', index=True)
+        # Get data from the current Monday 00:00 to the next Sunday 23:59
+        week_data = df.loc[monday:next_sunday]
 
-    print("Successfully written to weekly_OHLC.csv")
+        # Assign values to the new columns
+        df.at[monday, 'weekly_open'] = week_data['open'].iloc[0]
+        df.at[monday, 'weekly_high'] = week_data['high'].max()
+        df.at[monday, 'weekly_low'] = week_data['low'].min()
+        df.at[monday, 'weekly_close'] = week_data['close'].iloc[-1]
+
+    # Save the updated data to the specified output file
+    df.to_csv(output_file)
 
 
-if __name__ == "__main__":
-    main()
+# Call the function
+calculate_weekly_ohlc('cleaned_btc_exchange_time_2023.csv', 'cleaned_btc_1w_2023.csv')

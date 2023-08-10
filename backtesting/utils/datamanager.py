@@ -1,5 +1,6 @@
 # features_creation.py
 import pandas as pd
+import datetime as dt
 
 
 class DataManager:
@@ -7,6 +8,8 @@ class DataManager:
     def __init__(self, csv_path, date_col):
 
         self.data = pd.read_csv(csv_path, parse_dates=[date_col],
+                                date_parser=lambda x: dt.datetime.strptime(x,
+                                                                           '%d/%m/%Y'),
                                 index_col=date_col)
 
         # can use uniform to change this

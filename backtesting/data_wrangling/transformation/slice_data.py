@@ -31,10 +31,10 @@ def slice_data(input_csv, output_csv, startdate=None, enddate=None):
 
 
 def main():
-    input_csv = '../../data/test_data/TWC/cleaned_btc_weekly.csv'
-    start_date = '01/01/2018 00:00'
-    end_date = '31/12/2018 23:59'
-    output_csv = '../../data/test_data/TWC/cleaned_btc_2018.csv'
+    input_csv = '../../data/test_data/TWC/cleaned_btc_1w.csv'
+    start_date = '01/01/2023 00:00'
+    end_date = '31/12/2023 00:00'
+    output_csv = '../../data/test_data/TWC/cleaned_btc_1w_2023.csv'
 
     slice_data(input_csv, output_csv, start_date, end_date)
 
